@@ -34,16 +34,11 @@ import org.codehaus.jackson.node.ArrayNode;
  */
 public class ProductsRequest
 {
-    //public variables
-    private HttpPost httpPost;
-    private HttpGet httpGet;
     private CloseableHttpClient httpClient = HttpClients.createDefault();
     private CloseableHttpResponse response;
     private HttpEntity entity;
     private Gson gson = new Gson();
     private Base64 codec = new Base64();
-
-    //private variables
     private String apiKey;
     private String encodedApiKey;
     private String jsonResponse;
@@ -137,7 +132,7 @@ public class ProductsRequest
 
         try
         {
-            response = httpClient.execute(httpGet);
+            response = httpClient.execute(get);
             if(response.getStatusLine().getStatusCode() == 200)
             {
                 entity = response.getEntity();
