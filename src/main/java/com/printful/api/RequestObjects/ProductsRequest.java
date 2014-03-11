@@ -126,7 +126,10 @@ public class ProductsRequest
 
         //request to be sent
         String basicString = "Basic %s"+this.encodedApiKey;
-        HttpGet get = new HttpGet(urlBase+urlPart);
+
+        //I copied the url directly from this variable
+        String test = urlBase+urlPart;
+        HttpGet get = new HttpGet(test);
         get.addHeader("Authorization",basicString.substring(0,basicString.length()-2));
         get.addHeader("User-Agent",USER_AGENT);
 
