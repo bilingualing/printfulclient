@@ -53,6 +53,11 @@ public class ProductsRequest
         this.encodedApiKey = codec.encodeBase64String(apiKey.getBytes());
     }
 
+    //public List<Product> getAllProducts(String path)
+    //{
+
+    //}
+
     public List<Product> getAllProductList(String path)
     {
         //the list of products that will be returned
