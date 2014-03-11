@@ -137,7 +137,6 @@ public class ProductsRequest
 
         try
         {
-            httpClient.execute(get);
             response = httpClient.execute(httpGet);
             if(response.getStatusLine().getStatusCode() == 200)
             {
