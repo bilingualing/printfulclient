@@ -130,8 +130,8 @@ public class ProductsRequest
         //I copied the url directly from this variable
         String test = urlBase+urlPart;
         HttpGet get = new HttpGet(test);
-        get.addHeader("Authorization",basicString.substring(0,basicString.length()-2));
-        get.addHeader("User-Agent",USER_AGENT);
+        //get.addHeader("Authorization",basicString.substring(0,basicString.length()-2));
+        //get.addHeader("User-Agent",USER_AGENT);
 
         try
         {
