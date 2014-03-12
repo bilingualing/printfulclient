@@ -12,9 +12,14 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
+
+import java.io.*;
 import java.lang.reflect.Type;
 import org.codehaus.jackson.JsonNode;
-import java.io.IOException;
+
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.List;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.node.ArrayNode;
@@ -53,10 +58,66 @@ public class ProductsRequest
         this.encodedApiKey = codec.encodeBase64String(apiKey.getBytes());
     }
 
-    //public List<Product> getAllProducts(String path)
-    //{
+    public List<Product> getAllProducts(String requestType, String path)
+    {
+        List<Product> products = null;
+        URL url;
+        HttpURLConnection connection = null;
+        String basicString = "Basic "+this.encodedApiKey.substring(0,encodedApiKey.length()-2);
 
-    //}
+        try
+        {
+            url = new URL(path);
+            connection = (HttpURLConnection)url.openConnection();
+            connection.setRequestMethod(requestType);
+
+            //set the request properties here
+            connection.setRequestProperty("Authorization",basicString);
+
+            connection.setUseCaches(false);
+
+            /*
+            * A URL connection can be used for input and/or output. Setting the doInput flag to true indicates
+            * that the application intends to read data from the URL connection.
+            * The default value of this field is true.
+            * */
+            connection.setDoInput(true);
+            connection.setDoOutput(true);
+
+            //send the request
+            DataOutputStream request = new DataOutputStream(connection.getOutputStream());
+            request.flush();
+            request.close();
+
+            //get the response
+            InputStream inputStream = connection.getInputStream();
+            BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+            String line;
+            StringBuilder response = new StringBuilder();
+            while((line = reader.readLine()) != null)
+            {
+                response.append(line);
+            }
+
+        }
+        catch (MalformedURLException e)
+        {
+            e.printStackTrace();
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+        finally
+        {
+            if(connection != null)
+            {
+                connection.disconnect();
+            }
+        }
+
+        return products;
+    }
 
     public List<Product> getAllProductList(String path)
     {

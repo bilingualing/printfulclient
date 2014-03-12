@@ -18,6 +18,7 @@ public class ProductsRequestTest
     public void testGetAllProducts()
     {
         ProductsRequest request = new ProductsRequest("aewco3iz-8ta7-4ipp:qijx-u83bmxs9jie8");
+        List<Product> allProducts = request.getAllProducts("GET","https://api.theprintful.com/products");
         List<Product> products = request.getAllProductList("https://api.theprintful.com/products");
         assertNotNull(products);
     }
