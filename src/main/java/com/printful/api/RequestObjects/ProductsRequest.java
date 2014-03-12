@@ -61,7 +61,7 @@ public class ProductsRequest
         //set the endpoint that will be used to get the list of products
         httpGet = new HttpGet(path);
         String basicString = "Basic "+this.encodedApiKey;
-        httpGet.addHeader("Authorization",basicString.substring(0,basicString.length()-2));
+        //httpGet.addHeader("Authorization",basicString.substring(0,basicString.length()-2));
 
         try
         {
