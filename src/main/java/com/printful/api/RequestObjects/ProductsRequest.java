@@ -2,6 +2,8 @@ package com.printful.api.RequestObjects;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.printful.api.ProductCatalog.ProductInfo;
+import com.printful.api.ProductCatalog.VariantInfo;
 import org.apache.commons.codec.binary.Base64;
 import com.printful.api.ProductCatalog.Product;
 import org.apache.http.HttpEntity;
@@ -80,5 +82,59 @@ public class ProductsRequest
         }
 
         return returnedProducts;
+    }
+
+    public VariantInfo getVariantInfo(String path)
+    {
+        VariantInfo info = null;
+        httpGet = new HttpGet(baseUrl+path);
+        String basicString = "Basic "+this.encodedApiKey;
+        httpGet.addHeader("Authorization",basicString.substring(0,basicString.length()-2));
+
+        try
+        {
+            response = httpClient.execute(httpGet);
+            if(response.getStatusLine().getStatusCode() == 200)
+            {
+                entity = response.getEntity();
+                jsonResponse = EntityUtils.toString(entity);
+                JsonNode root = mapper.readTree(jsonResponse);
+                ArrayNode variant = (ArrayNode) root.path("result");
+                info = gson.fromJson(variant.toString(),VariantInfo.class);
+            }
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+
+        return info;
+    }
+
+    public ProductInfo getProductsVariantList(String path)
+    {
+        ProductInfo info = null;
+        httpGet = new HttpGet(baseUrl+path);
+        String basicString = "Basic "+this.encodedApiKey;
+        httpGet.addHeader("Authorization",basicString.substring(0,basicString.length()-2));
+
+        try
+        {
+            response = httpClient.execute(httpGet);
+            if(response.getStatusLine().getStatusCode() == 200)
+            {
+                entity = response.getEntity();
+                jsonResponse = EntityUtils.toString(entity);
+                JsonNode root = mapper.readTree(jsonResponse);
+                ArrayNode aNode = (ArrayNode) root.path("result");
+                info = gson.fromJson(aNode.toString(), ProductInfo.class);
+            }
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+
+        return info;
     }
 }
