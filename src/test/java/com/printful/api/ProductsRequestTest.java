@@ -18,7 +18,7 @@ public class ProductsRequestTest
     public void testGetAllProducts()
     {
         ProductsRequest request = new ProductsRequest("aewco3iz-8ta7-4ipp:qijx-u83bmxs9jie8");
-        List<Product> products = request.getAllProductList("https://sni.velox.ch/");
+        List<Product> products = request.getAllProductList("/products");
         assertNotNull(products);
     }
 }
