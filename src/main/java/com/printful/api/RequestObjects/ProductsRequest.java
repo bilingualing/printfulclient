@@ -31,7 +31,6 @@ import org.codehaus.jackson.node.ArrayNode;
  */
 public class ProductsRequest
 {
-    //public variables
     private HttpPost httpPost;
     private HttpGet httpGet;
     private CloseableHttpClient httpClient = HttpClients.createDefault();
@@ -39,7 +38,7 @@ public class ProductsRequest
     private HttpEntity entity;
     private Gson gson = new Gson();
     private Base64 codec = new Base64();
-
+    private String baseUrl = "https://api.theprintful.com";
     //private variables
     private String apiKey;
     private String encodedApiKey;
@@ -57,9 +56,8 @@ public class ProductsRequest
     {
         //the list of products that will be returned
         List<Product> returnedProducts = null;
-
         //set the endpoint that will be used to get the list of products
-        httpGet = new HttpGet(path);
+        httpGet = new HttpGet(baseUrl+path);
         String basicString = "Basic "+this.encodedApiKey;
         httpGet.addHeader("Authorization",basicString.substring(0,basicString.length()-2));
 
@@ -79,8 +77,6 @@ public class ProductsRequest
         catch (IOException e)
         {
             e.printStackTrace();
-            String error = e.toString();
-            int i;
         }
 
         return returnedProducts;
