@@ -31,41 +31,29 @@ import org.codehaus.jackson.node.ArrayNode;
  that are nonetheless sufficient to develop full-featured client-side and server-side HTTP services with
  a minimal footprint.
  */
-public class ProductsRequest
+public class ProductsRequest extends Request
 {
-    private HttpPost httpPost;
-    private HttpGet httpGet;
+
     private CloseableHttpClient httpClient = HttpClients.createDefault();
     private CloseableHttpResponse response;
     private HttpEntity entity;
     private Gson gson = new Gson();
-    private Base64 codec = new Base64();
-    private String baseUrl = "https://api.theprintful.com";
     //private variables
-    private String apiKey;
-    private String encodedApiKey;
     private String jsonResponse;
     private ObjectMapper mapper = new ObjectMapper();
 
     public ProductsRequest(String apiKey)
     {
-        super();
-        this.apiKey = apiKey;
-        this.encodedApiKey = codec.encodeBase64String(apiKey.getBytes());
+        super(apiKey);
     }
 
-    public List<Product> getAllProductList(String path)
+    public List<Product> getAllProductList(CloseableHttpResponse response)
     {
         //the list of products that will be returned
         List<Product> returnedProducts = null;
-        //set the endpoint that will be used to get the list of products
-        httpGet = new HttpGet(baseUrl+path);
-        String basicString = "Basic "+this.encodedApiKey;
-        httpGet.addHeader("Authorization",basicString.substring(0,basicString.length()-2));
 
         try
         {
-            response = httpClient.execute(httpGet);
             if(response.getStatusLine().getStatusCode() == 200)
             {
                 entity = response.getEntity();
@@ -84,16 +72,12 @@ public class ProductsRequest
         return returnedProducts;
     }
 
-    public VariantInfo getVariantInfo(String path)
+    public VariantInfo getVariantInfo(CloseableHttpResponse response)
     {
         VariantInfo info = null;
-        httpGet = new HttpGet(baseUrl+path);
-        String basicString = "Basic "+this.encodedApiKey;
-        httpGet.addHeader("Authorization",basicString.substring(0,basicString.length()-2));
 
         try
         {
-            response = httpClient.execute(httpGet);
             if(response.getStatusLine().getStatusCode() == 200)
             {
                 entity = response.getEntity();
@@ -111,16 +95,12 @@ public class ProductsRequest
         return info;
     }
 
-    public ProductInfo getProductsVariantList(String path)
+    public ProductInfo getProductsVariantList(CloseableHttpResponse response)
     {
         ProductInfo info = null;
-        httpGet = new HttpGet(baseUrl+path);
-        String basicString = "Basic "+this.encodedApiKey;
-        httpGet.addHeader("Authorization",basicString.substring(0,basicString.length()-2));
 
         try
         {
-            response = httpClient.execute(httpGet);
             if(response.getStatusLine().getStatusCode() == 200)
             {
                 entity = response.getEntity();
